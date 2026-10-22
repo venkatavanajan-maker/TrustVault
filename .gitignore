@@ -1,0 +1,42 @@
+﻿# .NET build output
+**/bin/
+**/obj/
+
+# Local configuration and secrets
+**/appsettings.Development.json
+**/secrets.json
+**/secrets/
+**/*.user
+**/*.suo
+
+# Local databases and uploaded documents
+*.mdf
+*.ldf
+*.db
+**/uploads/
+**/App_Data/
+
+# Angular dependencies and build output
+**/node_modules/
+**/dist/
+**/.angular/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# IDE and operating system files
+.vs/
+.vscode/
+.DS_Store
+Thumbs.db
+backend/TrustVault.Api/appsettings*.json
+backend/TrustVault.Api/appsettings*.json
+
+# Local backups and build logs
+frontend/build-errors.txt
+frontend/**/*.backup
+frontend/**/*.pre-*
+frontend/**/*.shared-backup
+frontend/**/*-backup.html

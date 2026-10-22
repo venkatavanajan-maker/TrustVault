@@ -1,0 +1,668 @@
+
+@if (!isLoggedIn) {
+  <div class="auth-page">
+    <section class="auth-visual">
+      <div class="auth-brand">
+        <div class="brand-mark">T</div>
+        <span>TrustVault</span>
+      </div>
+
+      <div class="visual-content">
+        <span class="eyebrow">YOUR SECURITY. YOUR CONTROL.</span>
+        <h1>Your documents.<br />Your trust.<br /><span>Your vault.</span></h1>
+        <p>
+          A secure workspace to store, manage and share important documents
+          with the people you trust.
+        </p>
+        <div class="security-points">
+          <div><span>✓</span> Protected access with authentication</div>
+          <div><span>✓</span> Controlled document sharing</div>
+          <div><span>✓</span> Activity tracking and audit verification</div>
+        </div>
+      </div>
+
+      <div class="visual-footer">PRIVATE BY DESIGN · TRUSTED BY YOU</div>
+    </section>
+
+    <section class="auth-panel">
+      <div class="auth-card">
+        <div class="mobile-brand">
+          <div class="brand-mark">T</div>
+          <span>TrustVault</span>
+        </div>
+
+        <span class="form-eyebrow">SECURE DOCUMENT WORKSPACE</span>
+        <h2>{{ isRegisterMode ? 'Create your account' : 'Welcome back' }}</h2>
+        <p class="form-description">
+          {{
+            isRegisterMode
+              ? 'Create your personal vault and get started.'
+              : 'Sign in to access your secure document workspace.'
+          }}
+        </p>
+
+        @if (errorMessage) {
+          <div class="message error-message" role="alert">
+            {{ errorMessage }}
+          </div>
+        }
+
+        @if (successMessage) {
+          <div class="message success-message" role="status">
+            {{ successMessage }}
+          </div>
+        }
+
+        <form (ngSubmit)="submitAuth()" #authForm="ngForm">
+          @if (isRegisterMode) {
+            <label for="displayName">Full name</label>
+            <input
+              id="displayName"
+              name="displayName"
+              type="text"
+              [(ngModel)]="displayName"
+              placeholder="Enter your full name"
+              autocomplete="name"
+              required
+            />
+          }
+
+          <label for="email">Email address</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            [(ngModel)]="email"
+            placeholder="you@example.com"
+            autocomplete="email"
+            required
+          />
+
+          <label for="password">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            [(ngModel)]="password"
+            placeholder="Enter your password"
+            [attr.autocomplete]="isRegisterMode ? 'new-password' : 'current-password'"
+            required
+          />
+
+          @if (isRegisterMode) {
+            <p class="field-hint">
+              Use a password that meets your account's password policy.
+            </p>
+          }
+
+          <button
+            class="auth-submit"
+            type="submit"
+            [disabled]="loading || !authForm.valid"
+          >
+            {{
+              loading
+                ? 'Please wait...'
+                : isRegisterMode
+                  ? 'Create secure account'
+                  : 'Sign in securely'
+            }}
+            @if (!loading) {
+              <span>→</span>
+            }
+          </button>
+        </form>
+
+        <div class="auth-switch">
+          {{
+            isRegisterMode
+              ? 'Already have an account?'
+              : 'New to TrustVault?'
+          }}
+          <button type="button" (click)="toggleAuthMode()">
+            {{ isRegisterMode ? 'Sign in' : 'Create an account' }}
+          </button>
+        </div>
+
+        <div class="auth-assurance">
+          <span>◆</span>
+          Your session is protected by token-based authentication.
+        </div>
+      </div>
+    </section>
+  </div>
+} @else {
+  <div class="vault-app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon">T</div>
+        <div>
+          <h2>TrustVault</h2>
+          <p>Secure document workspace</p>
+        </div>
+      </div>
+
+      <div class="sidebar-label">WORKSPACE</div>
+
+      <div
+        class="nav-item"
+        [class.active]="currentView === 'dashboard'"
+        (click)="setView('dashboard')"
+      >
+        <span>▦</span> Dashboard
+      </div>
+
+      <div
+        class="nav-item"
+        [class.active]="currentView === 'my-documents'"
+        (click)="setView('my-documents')"
+      >
+        <span>▤</span> My documents
+      </div>
+
+      <div
+        class="nav-item"
+        [class.active]="currentView === 'shared-documents'"
+        (click)="setView('shared-documents')"
+      >
+        <span>⇄</span> Shared documents
+      </div>
+
+      @if (isAdministrator) {
+        <div
+          class="nav-item"
+          [class.active]="currentView === 'audit'"
+          (click)="setView('audit')"
+        >
+          <span>◷</span> Audit Activity
+        </div>
+      }
+
+      <div class="sidebar-bottom">
+        <div class="profile">
+          <div class="avatar">{{ email.charAt(0).toUpperCase() }}</div>
+          <div class="profile-info">
+            <strong>{{ email }}</strong>
+            <span>Authenticated member</span>
+          </div>
+        </div>
+
+        <button class="logout-button" type="button" (click)="logout()">
+          Sign out
+        </button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <span class="eyebrow">YOUR WORKSPACE</span>
+          <h1>
+            {{
+              currentView === 'shared-documents'
+                ? 'Shared documents'
+                : currentView === 'my-documents'
+                  ? 'My documents'
+                  : currentView === 'audit'
+                    ? 'Audit Activity'
+                    : 'Dashboard'
+            }}
+          </h1>
+        </div>
+
+        <div class="secure-badge">
+          <span class="status-dot"></span>
+          Signed in
+        </div>
+      </header>
+
+      @if (currentView !== 'shared-documents' && currentView !== 'audit') {
+        <section class="welcome-banner">
+          <div class="welcome-copy">
+            <span class="banner-label">YOUR DIGITAL SAFE</span>
+            <h2>Everything important,<br />in one secure place.</h2>
+            <p>
+              Manage your documents and share them with the people you trust.
+            </p>
+
+            <button
+              class="primary-button"
+              type="button"
+              (click)="showUpload = !showUpload"
+            >
+              + Upload a document
+            </button>
+          </div>
+
+          <div class="banner-art" aria-hidden="true">
+            <div class="orbit orbit-one"></div>
+            <div class="orbit orbit-two"></div>
+            <div class="vault-illustration">
+              <div class="vault-lock">✓</div>
+            </div>
+            <div class="floating-file">PDF</div>
+          </div>
+        </section>
+
+        @if (showUpload) {
+          <section class="upload-panel">
+            <h3>Upload a document</h3>
+            <p>
+              Select a file and provide a title to store it securely in
+              TrustVault.
+            </p>
+
+            <form (ngSubmit)="uploadDocument()" #uploadForm="ngForm">
+              <div class="form-group">
+                <label for="documentTitle">Document title</label>
+                <input
+                  id="documentTitle"
+                  type="text"
+                  name="documentTitle"
+                  [(ngModel)]="uploadTitle"
+                  placeholder="Enter document title"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="documentFile">Choose file</label>
+                <input
+                  id="documentFile"
+                  type="file"
+                  name="documentFile"
+                  (change)="onFileSelected($event)"
+                  required
+                />
+                <small>Maximum file size: 10 MB</small>
+              </div>
+
+              @if (uploadError) {
+                <p class="error-message">{{ uploadError }}</p>
+              }
+
+              @if (uploadSuccess) {
+                <p class="success-message">{{ uploadSuccess }}</p>
+              }
+
+              <button
+                class="primary-button"
+                type="submit"
+                [disabled]="uploading || !uploadForm.valid"
+              >
+                {{ uploading ? 'Uploading...' : 'Upload document' }}
+              </button>
+
+              <button
+                class="secondary-button"
+                type="button"
+                (click)="showUpload = false"
+              >
+                Close
+              </button>
+            </form>
+          </section>
+        }
+
+        <section class="section-heading">
+          <div>
+            <h2>Your workspace</h2>
+            <p>Your document overview</p>
+          </div>
+        </section>
+
+        <section class="stats-grid">
+          <article class="stat-card">
+            <div class="stat-top">
+              <span>Total Documents</span>
+              <span class="stat-icon purple">▤</span>
+            </div>
+            <strong>{{ documents.length }}</strong>
+            <small>Documents in your vault</small>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-top">
+              <span>Shared with Others</span>
+              <span class="stat-icon blue">⇄</span>
+            </div>
+            <strong>—</strong>
+            <small>Documents you manage and share</small>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-top">
+              <span>Shared with You</span>
+              <span class="stat-icon green">↙</span>
+            </div>
+            <strong>{{ sharedDocuments.length }}</strong>
+            <small>Documents shared with your account</small>
+          </article>
+        </section>
+
+        <section class="documents-section">
+          <div class="section-heading">
+            <div>
+              <h2>Recent documents</h2>
+              <p>Your secure document workspace</p>
+            </div>
+
+            <button
+              class="secondary-button"
+              type="button"
+              (click)="loadDocuments()"
+              [disabled]="documentsLoading"
+            >
+              {{ documentsLoading ? 'Refreshing...' : 'Refresh' }}
+            </button>
+          </div>
+
+          @if (documentsLoading) {
+            <div class="empty-state">
+              <h3>Loading documents...</h3>
+              <p>Retrieving your secure documents.</p>
+            </div>
+          } @else if (documentsError) {
+            <div class="empty-state">
+              <h3>Unable to load documents</h3>
+              <p>{{ documentsError }}</p>
+              <button
+                class="secondary-button"
+                type="button"
+                (click)="loadDocuments()"
+              >
+                Try again
+              </button>
+            </div>
+          } @else if (documents.length === 0) {
+            <div class="empty-state">
+              <div class="empty-icon">▤</div>
+              <h3>Your workspace is ready</h3>
+              <p>
+                You don't have any documents yet. Upload your first file to
+                get started.
+              </p>
+              <button
+                class="secondary-button"
+                type="button"
+                (click)="showUpload = true"
+              >
+                Upload your first file
+              </button>
+            </div>
+          } @else {
+            <div class="document-list">
+              @for (doc of documents; track doc.id) {
+                <article class="stat-card">
+                  <h3>{{ doc.title }}</h3>
+                  <p>{{ doc.originalFileName }}</p>
+                  <small>Size: {{ doc.sizeBytes }} bytes</small>
+                  <p>Uploaded: {{ doc.createdAtUtc | date:'medium' }}</p>
+
+                  <button
+                    class="primary-button"
+                    type="button"
+                    (click)="downloadFile(doc.id, doc.originalFileName)"
+                  >
+                    Download
+                  </button>
+
+                  <form (ngSubmit)="shareDocument(doc.id)">
+                    <label [for]="'shareEmail-' + doc.id">
+                      Share with email
+                    </label>
+                    <input
+                      [id]="'shareEmail-' + doc.id"
+                      type="email"
+                      [name]="'shareEmail-' + doc.id"
+                      [(ngModel)]="shareEmails[doc.id]"
+                      placeholder="recipient@example.com"
+                      required
+                    />
+
+                    <label [for]="'shareRole-' + doc.id">
+                      Access level
+                    </label>
+                    <select
+                      [id]="'shareRole-' + doc.id"
+                      [name]="'shareRole-' + doc.id"
+                      [ngModel]="shareRoles[doc.id] ?? 'Viewer'"
+                      (ngModelChange)="shareRoles[doc.id] = $event"
+                    >
+                      <option value="Viewer">Viewer — can download</option>
+                      <option value="Editor">Editor — can download</option>
+                    </select>
+
+                    <button
+                      class="secondary-button"
+                      type="submit"
+                      [disabled]="sharingDocumentIds[doc.id] === true"
+                    >
+                      {{
+                        sharingDocumentIds[doc.id]
+                          ? 'Sharing...'
+                          : 'Share document'
+                      }}
+                    </button>
+
+                    @if (shareMessages[doc.id]) {
+                      <p role="status">{{ shareMessages[doc.id] }}</p>
+                    }
+                  </form>
+
+                  <div class="share-access-list">
+                    <h4>People with access</h4>
+
+                    @if (shareListLoading[doc.id]) {
+                      <p>Loading access list...</p>
+                    } @else if (
+                      (documentShares[doc.id] ?? []).length === 0
+                    ) {
+                      <p>No one has access yet.</p>
+                    } @else {
+                      @for (
+                        share of (documentShares[doc.id] ?? []);
+                        track share.userId
+                      ) {
+                        <div class="share-recipient">
+                          <div class="share-recipient-info">
+                            <strong>
+                              {{ share.email || 'Unknown user' }}
+                            </strong>
+                            <small>Role: {{ share.role }}</small>
+                          </div>
+
+                          <button
+                            class="secondary-button"
+                            type="button"
+                            [disabled]="revokingUserIds[share.userId] === true"
+                            (click)="revokeDocumentAccess(doc.id, share.userId)"
+                          >
+                            {{
+                              revokingUserIds[share.userId]
+                                ? 'Revoking...'
+                                : 'Revoke access'
+                            }}
+                          </button>
+                        </div>
+                      }
+                    }
+                  </div>
+                </article>
+              }
+            </div>
+          }
+        </section>
+      }
+
+      @if (currentView === 'shared-documents') {
+        <section class="documents-section">
+          <div class="section-heading">
+            <div>
+              <h2>Shared documents</h2>
+              <p>Files other members have shared with you</p>
+            </div>
+
+            <button
+              class="secondary-button"
+              type="button"
+              (click)="loadSharedDocuments()"
+              [disabled]="sharedDocumentsLoading"
+            >
+              {{
+                sharedDocumentsLoading
+                  ? 'Refreshing...'
+                  : 'Refresh'
+              }}
+            </button>
+          </div>
+
+          @if (sharedDocumentsLoading) {
+            <div class="empty-state">
+              <h3>Loading shared documents...</h3>
+              <p>Retrieving files shared with you.</p>
+            </div>
+          } @else if (sharedDocumentsError) {
+            <div class="empty-state">
+              <h3>Unable to load shared documents</h3>
+              <p>{{ sharedDocumentsError }}</p>
+              <button
+                class="secondary-button"
+                type="button"
+                (click)="loadSharedDocuments()"
+              >
+                Try again
+              </button>
+            </div>
+          } @else if (sharedDocuments.length === 0) {
+            <div class="empty-state">
+              <h3>No shared documents yet</h3>
+              <p>
+                When someone shares a document with your account, it will
+                appear here.
+              </p>
+            </div>
+          } @else {
+            <div class="document-list">
+              @for (doc of sharedDocuments; track doc.id) {
+                <article class="stat-card">
+                  <h3>{{ doc.title }}</h3>
+                  <p>{{ doc.originalFileName }}</p>
+                  <small>Size: {{ doc.sizeBytes }} bytes</small>
+                  <p>Shared document</p>
+
+                  <button
+                    class="primary-button"
+                    type="button"
+                    (click)="downloadFile(doc.id, doc.originalFileName)"
+                  >
+                    Download
+                  </button>
+                </article>
+              }
+            </div>
+          }
+        </section>
+      }
+
+      @if (currentView === 'audit' && isAdministrator) {
+        <section class="documents-section audit-section">
+          <div class="section-heading">
+            <div>
+              <h2>Audit Activity</h2>
+              <p>Recent security events recorded by TrustVault</p>
+            </div>
+
+            <div class="audit-actions">
+              <button
+                class="secondary-button"
+                type="button"
+                (click)="loadAuditEntries()"
+                [disabled]="auditLoading"
+              >
+                {{ auditLoading ? 'Refreshing...' : 'Refresh activity' }}
+              </button>
+
+              <button
+                class="primary-button"
+                type="button"
+                (click)="verifyAuditChain()"
+                [disabled]="auditVerifying"
+              >
+                {{ auditVerifying ? 'Verifying...' : 'Verify audit chain' }}
+              </button>
+            </div>
+          </div>
+
+          @if (auditVerification) {
+            <div
+              class="audit-verification"
+              [class.audit-valid]="auditVerification.status === 'VALID'"
+              [class.audit-invalid]="auditVerification.status !== 'VALID'"
+            >
+              <strong>{{ auditVerification.status }}</strong>
+              <p>{{ auditVerification.message }}</p>
+            </div>
+          }
+
+          @if (auditLoading) {
+            <p class="audit-message">Loading audit activity...</p>
+          }
+
+          @if (auditError) {
+            <p class="message error-message">{{ auditError }}</p>
+          }
+
+          @if (!auditLoading && !auditError && auditEntries.length === 0) {
+            <div class="empty-state">
+              <div class="empty-icon">◷</div>
+              <h3>No audit activity found</h3>
+              <p>
+                Security events will appear here as documents are uploaded,
+                downloaded, shared, or revoked.
+              </p>
+            </div>
+          }
+
+          @if (!auditLoading && auditEntries.length > 0) {
+            <div class="audit-list">
+              @for (entry of auditEntries; track entry.id) {
+                <article class="audit-entry">
+                  <div class="audit-entry-top">
+                    <strong>{{ entry.action }}</strong>
+
+                    <span
+                      class="audit-result"
+                      [class.audit-result-success]="entry.succeeded"
+                      [class.audit-result-failure]="!entry.succeeded"
+                    >
+                      {{ entry.succeeded ? 'Succeeded' : 'Failed' }}
+                    </span>
+                  </div>
+
+                  <p>
+                    {{ entry.resourceType }}
+                    @if (entry.resourceId) {
+                      · {{ entry.resourceId }}
+                    }
+                  </p>
+
+                  <small>{{ entry.timestampUtc | date:'medium' }}</small>
+
+                  @if (entry.details) {
+                    <p class="audit-details">{{ entry.details }}</p>
+                  }
+                </article>
+              }
+            </div>
+          }
+        </section>
+      }
+
+      <footer>
+        <span>TrustVault · Secure document management</span>
+        <span>Privacy matters. Security always.</span>
+      </footer>
+    </main>
+  </div>
+}
