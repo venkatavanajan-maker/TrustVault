@@ -1,6 +1,6 @@
 
 
-\# TrustVault — Secure Document Vault
+# TrustVault — Secure Document Vault
 
 
 
@@ -8,25 +8,25 @@ TrustVault is a secure document management web application built with Angular, A
 
 
 
-\## Features
+## Features
 
 
 
-\- \*\*Authentication:\*\* User registration and login using ASP.NET Core Identity and JWT authentication.
+- \*\*Authentication:\*\* User registration and login using ASP.NET Core Identity and JWT authentication.
 
-\- \*\*Document management:\*\* Upload, list, and download documents through protected API endpoints.
+- \*\*Document management:\*\* Upload, list, and download documents through protected API endpoints.
 
-\- \*\*Document sharing:\*\* Grant and revoke document access through the application.
+- \*\*Document sharing:\*\* Grant and revoke document access through the application.
 
-\- \*\*Access control:\*\* Enforce document permissions on the server rather than relying only on frontend visibility.
+- \*\*Access control:\*\* Enforce document permissions on the server rather than relying only on frontend visibility.
 
-\- \*\*Audit logging:\*\* Record document-related security events and verify the integrity of the audit hash chain.
+- \*\*Audit logging:\*\* Record document-related security events and verify the integrity of the audit hash chain.
 
-\- \*\*Web dashboard:\*\* Angular interface for authentication, document management, and shared documents.
+- \*\*Web dashboard:\*\* Angular interface for authentication, document management, and shared documents.
 
 
 
-\## Technology Stack
+## Technology Stack
 
 
 
@@ -48,7 +48,7 @@ TrustVault is a secure document management web application built with Angular, A
 
 
 
-\## Project Structure
+## Project Structure
 
 
 
@@ -72,7 +72,7 @@ TrustVault/
 
 
 
-\## Prerequisites
+## Prerequisites
 
 
 
@@ -80,23 +80,23 @@ Install and configure the following before running the project:
 
 
 
-\- .NET 10 SDK
+- .NET 10 SDK
 
-\- Node.js and npm
+- Node.js and npm
 
-\- Angular CLI-compatible dependencies installed through npm
+- Angular CLI-compatible dependencies installed through npm
 
-\- Microsoft SQL Server Express
+- Microsoft SQL Server Express
 
-\- A configured SQL Server database and valid application secrets
-
-
-
-\## Running the Application
+- A configured SQL Server database and valid application secrets
 
 
 
-\### 1. Start the backend
+## Running the Application
+
+
+
+### 1. Start the backend
 
 
 
@@ -134,7 +134,7 @@ Keep the backend terminal running.
 
 
 
-\### 2. Start the frontend
+### 2. Start the frontend
 
 
 
@@ -166,7 +166,7 @@ If that port is already occupied, use the alternative port reported by Angular.
 
 
 
-\### 3. Database and secrets
+### 3. Database and secrets
 
 
 
@@ -182,7 +182,7 @@ Ensure the database exists and the required Entity Framework Core migrations hav
 
 
 
-\## Security Design
+## Security Design
 
 
 
@@ -190,19 +190,19 @@ TrustVault is designed around the following security principles:
 
 
 
-\- Authenticate API requests before granting access to protected resources.
+- Authenticate API requests before granting access to protected resources.
 
-\- Check document ownership and permissions on the server for protected operations.
+- Check document ownership and permissions on the server for protected operations.
 
-\- Keep document storage private and restrict access through authorized API operations.
+- Keep document storage private and restrict access through authorized API operations.
 
-\- Revoke document permissions so subsequent requests are checked against current access rights.
+- Revoke document permissions so subsequent requests are checked against current access rights.
 
-\- Record relevant security events in an audit log.
+- Record relevant security events in an audit log.
 
-\- Verify audit-chain integrity through the audit verification endpoint.
+- Verify audit-chain integrity through the audit verification endpoint.
 
-\- Apply upload size limits and validate incoming requests.
+- Apply upload size limits and validate incoming requests.
 
 
 
@@ -210,7 +210,7 @@ These are intended security controls; their effectiveness depends on the impleme
 
 
 
-\## Testing and Verification
+## Testing and Verification
 
 
 
@@ -218,15 +218,15 @@ The following checks have been completed in the development environment:
 
 
 
-\- Backend build succeeded using `dotnet build`.
+- Backend build succeeded using `dotnet build`.
 
-\- Angular production build succeeded using `npm.cmd run build`.
+- Angular production build succeeded using `npm.cmd run build`.
 
-\- Frontend unit tests passed: \*\*4 tests across 3 test files\*\*.
+- Frontend unit tests passed: \*\*4 tests across 3 test files\*\*.
 
-\- Audit hash-chain verification returned `VALID`.
+- Audit hash-chain verification returned `VALID`.
 
-\- A download attempt by a user without access after permission revocation was denied with HTTP 404, and a failed download event was recorded in the audit log.
+- A download attempt by a user without access after permission revocation was denied with HTTP 404, and a failed download event was recorded in the audit log.
 
 
 
@@ -234,7 +234,7 @@ These results describe the specific checks performed; they do not establish that
 
 
 
-\### Run the tests
+### Run the tests
 
 
 
@@ -280,17 +280,17 @@ npm.cmd test -- --watch=false
 
 
 
-\## Security Documentation
+## Security Documentation
 
 
 
-\- \*\*`THREATS.md`\*\* — Threat model, mitigations, limitations, and security verification checklist.
+- \*\*`THREATS.md`\*\* — Threat model, mitigations, limitations, and security verification checklist.
 
-\- \*\*`PROMPTS.md`\*\* — Documentation of AI assistance and human review during development.
+- \*\*`PROMPTS.md`\*\* — Documentation of AI assistance and human review during development.
 
 
 
-\## Project Status
+## Project Status
 
 
 
@@ -298,7 +298,7 @@ TrustVault is a development-stage project. Further security testing, deployment 
 
 
 
-\## Responsible Use
+## Responsible Use
 
 
 

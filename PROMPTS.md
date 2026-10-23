@@ -1,8 +1,8 @@
-\# TrustVault — AI Prompts and Development Notes
+# TrustVault — AI Prompts and Development Notes
 
 
 
-\## 1. Project Goal
+## 1. Project Goal
 
 
 
@@ -10,7 +10,7 @@ Build TrustVault, a secure document vault using Angular, ASP.NET Core, and SQL S
 
 
 
-\## 2. Development Assistance
+## 2. Development Assistance
 
 
 
@@ -18,45 +18,45 @@ AI assistance was used to help with:
 
 
 
-\- Planning the frontend and backend structure.
+- Planning the frontend and backend structure.
 
-\- Implementing authentication and role-based authorization.
+- Implementing authentication and role-based authorization.
 
-\- Connecting Angular services to ASP.NET Core API endpoints.
+- Connecting Angular services to ASP.NET Core API endpoints.
 
-\- Implementing document upload, listing, and download workflows.
+- Implementing document upload, listing, and download workflows.
 
-\- Reviewing document sharing and access revocation logic.
+- Reviewing document sharing and access revocation logic.
 
-\- Reviewing audit logging and hash-chain verification.
+- Reviewing audit logging and hash-chain verification.
 
-\- Troubleshooting compilation and runtime issues.
+- Troubleshooting compilation and runtime issues.
 
-\- Preparing security documentation and testing checklists.
-
-
-
-\## 3. Example Prompts
+- Preparing security documentation and testing checklists.
 
 
 
-\- Help me build a secure document vault using Angular, ASP.NET Core, and SQL Server.
-
-\- Explain how to protect document API endpoints with authentication and authorization.
-
-\- Help implement private document storage and secure document downloads.
-
-\- Review document-sharing permissions and ensure revoked users cannot download files.
-
-\- Help verify audit logging and hash-chain integrity.
-
-\- Help troubleshoot Angular compilation and API integration errors.
-
-\- Help prepare a threat model and a security testing checklist.
+## 3. Example Prompts
 
 
 
-\## 4. Human Review and Testing
+- Help me build a secure document vault using Angular, ASP.NET Core, and SQL Server.
+
+- Explain how to protect document API endpoints with authentication and authorization.
+
+- Help implement private document storage and secure document downloads.
+
+- Review document-sharing permissions and ensure revoked users cannot download files.
+
+- Help verify audit logging and hash-chain integrity.
+
+- Help troubleshoot Angular compilation and API integration errors.
+
+- Help prepare a threat model and a security testing checklist.
+
+
+
+## 4. Human Review and Testing
 
 
 
@@ -68,7 +68,7 @@ Further verification is required for all authorization edge cases, permission re
 
 
 
-\## 5. Responsible Use
+## 5. Responsible Use
 
 
 
