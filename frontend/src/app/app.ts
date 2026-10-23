@@ -196,10 +196,14 @@ constructor(
 
     this.documentsService.getMyDocuments().subscribe({
       next: result => {
-        this.documents = result;
-        this.documentsLoading = false;
-        this.cdr.detectChanges();
-      },
+  this.documents = result;
+  this.documentsLoading = false;
+  this.cdr.detectChanges();
+
+  for (const doc of result) {
+    this.loadDocumentShares(doc.id);
+  }
+},
       error: error => {
         console.error(
           'TrustVault documents request failed:',
