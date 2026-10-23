@@ -33,7 +33,7 @@ TrustVault is a document vault built with Angular, ASP.NET Core, and SQL Server.
 
 | Threat | Mitigation | Verification status |
 |---|---|---|
-| Unauthenticated API access | Protected API endpoints require authentication. | Pending: test requests without a token. |
+| Unauthenticated API access | Protected API endpoints require authentication. | Verified: GET /api/Documents and GET /api/Documents/shared-with-me both returned HTTP 401 without a token. |
 | Unauthorized document download | The API checks document ownership and sharing permissions. | Partially verified: shared-document download worked for an authorized recipient. Test denial for a user without access remains pending. |
 | Access after permission revocation | Download authorization is checked against current database permissions. | Verified: download attempt after revocation returned HTTP 404. |
 | Unauthorized document sharing or revocation | Sharing and revocation enforce document ownership. | Pending: test both actions as a non-owner. |
