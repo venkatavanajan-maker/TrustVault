@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/backend/">
+    <Project Path="backend/TrustVault.Api.Tests/TrustVault.Api.Tests.csproj" />
+    <Project Path="backend/TrustVault.Api/TrustVault.Api.csproj" />
+  </Folder>
+</Solution>

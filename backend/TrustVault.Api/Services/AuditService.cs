@@ -47,7 +47,11 @@ public sealed class AuditService
 
         var lockResult = await command.ExecuteScalarAsync(cancellationToken);
         var lockCode = Convert.ToInt32(lockResult);
-
+if (lockCode < 0)
+{
+    throw new InvalidOperationException(
+        $"Failed to acquire the audit-chain lock. SQL Server returned {lockCode}.");
+}
                 var verification = await VerifyChainAsync(cancellationToken);
 
         if (!verification.IsValid)
