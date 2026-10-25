@@ -118,10 +118,11 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AngularFrontend", policy =>
     {
-       policy.WithOrigins(
-        "http://localhost:4200",
-        "http://localhost:50089",
-        "http://localhost:56705")
+      policy.WithOrigins(
+    "http://localhost:4200",
+    "http://localhost:50089",
+    "http://localhost:56705",
+    "https://trustvault-vanaja.netlify.app")
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
