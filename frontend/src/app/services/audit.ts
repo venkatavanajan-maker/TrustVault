@@ -1,9 +1,12 @@
-
+﻿
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const API_URL = 'http://localhost:5062/api/Audit';
+const API_URL = (typeof window !== 'undefined' &&
+  window.location.hostname === 'localhost')
+  ? 'http://localhost:5062/api/Audit'
+  : 'https://trustvault-g7zg.onrender.com/api/Audit';
 
 export interface AuditEntry {
   id: number;
@@ -38,3 +41,4 @@ export class Audit {
     );
   }
 }
+

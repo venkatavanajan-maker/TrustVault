@@ -1,9 +1,12 @@
-
+﻿
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 
-const API_URL = 'http://localhost:5062/api/Auth';
+const API_URL = (typeof window !== 'undefined' &&
+  window.location.hostname === 'localhost')
+  ? 'http://localhost:5062/api/Auth'
+  : 'https://trustvault-g7zg.onrender.com/api/Auth';
 
 export interface AuthResponse {
   message: string;
@@ -85,3 +88,4 @@ export class Auth {
     return this.getToken() !== null;
   }
 }
+
