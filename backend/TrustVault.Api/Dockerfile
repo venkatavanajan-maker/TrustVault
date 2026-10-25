@@ -1,8 +1,8 @@
 ﻿FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
-COPY ["TrustVault.Api.csproj", "./"]
+COPY ["backend/TrustVault.Api/TrustVault.Api.csproj", "./"]
 RUN dotnet restore "TrustVault.Api.csproj"
-COPY . .
+COPY backend/TrustVault.Api/ ./
 RUN dotnet publish "TrustVault.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0
